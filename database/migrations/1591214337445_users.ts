@@ -12,6 +12,7 @@ export default class Users extends BaseSchema {
       table.string('ssn')
       table.string('ein')
       table.string('zipcode').notNullable()
+      table.boolean('active').defaultTo(false)
       table.boolean('is_juridical').defaultTo(false)
       table.timestamps(true)
     })
