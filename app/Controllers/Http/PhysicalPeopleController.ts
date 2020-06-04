@@ -4,7 +4,7 @@ import User from '../../Models/User'
 
 export default class PhysicalPeopleController {
   public async index ({ response }: HttpContextContract) {
-    const user = await User.query().where('is_juridical', '=', false)
+    const user = await User.query().where('is_juridical', '=', false).andWhere('active', '=', true)
 
     return response.send(user)
   }
@@ -16,6 +16,7 @@ export default class PhysicalPeopleController {
       'password',
       'ssn',
       'zipcode',
+      'active',
     ])
 
     await User.create({
@@ -42,7 +43,7 @@ export default class PhysicalPeopleController {
     const user = await User.findOrFail(params.id)
 
     if(user.isJuridical === true) {
-      return response.send({ message: '' })
+      return response.send({ message: 'você não tem permissão para editar!' })
     }
 
     user.merge({ ...dataUser })
@@ -54,7 +55,8 @@ export default class PhysicalPeopleController {
   public async destroy ({ params, response }: HttpContextContract) {
     const user = await User.findOrFail(params.id)
 
-    await user.delete()
+    user.active = false
+    user.save()
 
     return response.status(200)
   }
