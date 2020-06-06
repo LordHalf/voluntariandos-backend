@@ -1,35 +1,24 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import User from '../../Models/User'
+import User from 'App/Models/User'
 
 export default class JuridicalPeopleController {
   public async index ({ response }: HttpContextContract) {
-    const user = await User.query().where('is_juridical', '=', true).andWhere('active', '=', true)
+    const user = await User.query().where('is_juridical', '=', true).andWhere('is_active', '=', true)
 
     return response.send(user)
   }
 
   public async store ({ request, response }: HttpContextContract) {
-    const user = request.only([
+    const dataUser = request.only([
       'full_name',
       'email',
       'password',
       'ein',
-      'zipcode',
-      'is_juridical',
-      'active',
     ])
 
-    await User.create({
-      fullName: user.full_name,
-      email: user.email,
-      password: user.password,
-      ein: user.ein,
-      ssn: undefined,
-      zipcode: user.zipcode,
-      active: false,
-      isJuridical: true,
-    })
+    await User.create(dataUser)
+
     return response.status(200)
   }
 
@@ -38,9 +27,6 @@ export default class JuridicalPeopleController {
       'full_name',
       'email',
       'password',
-      'ein',
-      'zipcode',
-      'is_juridical',
     ])
 
     const user = await User.findOrFail(params.id)
@@ -58,7 +44,7 @@ export default class JuridicalPeopleController {
   public async destroy ({ params, response }: HttpContextContract) {
     const user = await User.findOrFail(params.id)
 
-    user.active = false
+    user.isActive = false
     user.save()
 
     return response.status(200)

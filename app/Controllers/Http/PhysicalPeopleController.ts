@@ -1,10 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import User from '../../Models/User'
+import User from 'App/Models/User'
 
 export default class PhysicalPeopleController {
   public async index ({ response }: HttpContextContract) {
-    const user = await User.query().where('is_juridical', '=', false).andWhere('active', '=', true)
+    const user = await User.query().where('is_juridical', '=', false).andWhere('is_active', '=', true)
 
     return response.send(user)
   }
@@ -15,18 +15,9 @@ export default class PhysicalPeopleController {
       'email',
       'password',
       'ssn',
-      'zipcode',
-      'active',
     ])
 
-    await User.create({
-      fullName: dataUser.full_name,
-      email: dataUser.email,
-      password: dataUser.password,
-      ssn: dataUser.ssn,
-      ein: undefined,
-      zipcode: dataUser.zipcode,
-    })
+    await User.create(dataUser)
 
     return response.status(200)
   }
@@ -36,8 +27,6 @@ export default class PhysicalPeopleController {
       'full_name',
       'email',
       'password',
-      'ssn',
-      'zipcode',
     ])
 
     const user = await User.findOrFail(params.id)
@@ -55,7 +44,7 @@ export default class PhysicalPeopleController {
   public async destroy ({ params, response }: HttpContextContract) {
     const user = await User.findOrFail(params.id)
 
-    user.active = false
+    user.isActive = false
     user.save()
 
     return response.status(200)
