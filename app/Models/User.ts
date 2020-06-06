@@ -21,20 +21,18 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
-  @column()
-  public zipcode: string
 
   @column()
-  public ssn: string
+  public ssn: number
 
   @column()
-  public ein: string
+  public ein: number
+
+  @column()
+  public isActive: boolean
 
   @column()
   public isJuridical: boolean
-
-  @column()
-  public active: boolean
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
