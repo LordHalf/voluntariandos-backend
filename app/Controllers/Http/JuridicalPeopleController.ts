@@ -10,14 +10,20 @@ export default class JuridicalPeopleController {
   }
 
   public async store ({ request, response }: HttpContextContract) {
-    const dataUser = request.only([
+    const user = request.only([
       'full_name',
       'email',
       'password',
       'ein',
     ])
 
-    await User.create(dataUser)
+    await User.create({
+      fullName: user.full_name,
+      email: user.email,
+      password: user.password,
+      ein: user.ein,
+      isJuridical: true,
+    })
 
     return response.status(200)
   }

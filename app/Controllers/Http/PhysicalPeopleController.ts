@@ -41,8 +41,12 @@ export default class PhysicalPeopleController {
     return response.status(200)
   }
 
-  public async destroy ({ params, response }: HttpContextContract) {
+  public async destroy ({ auth, params, response }: HttpContextContract) {
     const user = await User.findOrFail(params.id)
+
+    if(auth.user?.id !== params.id && user !== params.id) {
+      return response.status(401)
+    }
 
     user.isActive = false
     user.save()
