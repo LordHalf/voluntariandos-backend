@@ -6,7 +6,7 @@ export default class Telefone extends BaseModel {
   public id: number
 
   @column()
-  public adressId: number
+  public contactId: number
 
   @column()
   public number: number

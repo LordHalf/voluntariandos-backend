@@ -6,6 +6,21 @@ export default class Adress extends BaseModel {
   public id: number
 
   @column()
+  public street: string
+
+  @column()
+  public zipcode: number
+
+  @column()
+  public city: string
+
+  @column()
+  public uf: string
+
+  @column()
+  public contactId: number
+
+  @column()
   public idJuridical: number
 
   @column.dateTime({ autoCreate: true })

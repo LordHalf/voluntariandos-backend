@@ -6,13 +6,13 @@ export default class SocialMedia extends BaseModel {
   public id: number
 
   @column()
-  public adressId: number
-
-  @column()
-  public logo: string
+  public name: number
 
   @column()
   public link: string
+
+  @column()
+  public contactId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
