@@ -6,8 +6,15 @@ export default class Telefones extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('adress_id')
-      table.integer('number')
+      table.integer('number').unique()
+
+      table
+        .integer('user_id')
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+
       table.timestamps(true)
     })
   }

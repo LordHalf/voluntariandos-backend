@@ -1,18 +1,22 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Requirements extends BaseSchema {
-  protected tableName = 'requirements'
+export default class Supports extends BaseSchema {
+  protected tableName = 'supports'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('title').notNullable()
-      table.string('description')
-      table.text('content').notNullable()
-      table.boolean('was_suplied').defaultTo(false)
+      table.boolean('was_accept')
 
       table
-        .integer('juridical_id')
+        .integer('physical_id')
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+
+      table
+        .integer('requiment_id')
         .references('id')
         .inTable('users')
         .onUpdate('CASCADE')
