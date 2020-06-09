@@ -10,6 +10,6 @@
       "App/*": ["./app/*"],
       "Contracts/*": ["./contracts/*"]
     },
-    "types": ["@adonisjs/core", "@adonisjs/lucid", "@adonisjs/auth"]
+    "types": ["@adonisjs/core", "@adonisjs/lucid"]
   }
 }
