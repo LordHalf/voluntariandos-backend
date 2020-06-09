@@ -4,7 +4,10 @@ import User from 'App/Models/User'
 
 export default class PhysicalPeopleController {
   public async index ({ response }: HttpContextContract) {
-    const user = await User.query().where('is_juridical', '=', false).andWhere('is_active', '=', true)
+    const user = await User
+      .query()
+      .where('is_juridical', false)
+      .andWhere('is_active', true)
 
     return response.send(user)
   }
@@ -41,10 +44,10 @@ export default class PhysicalPeopleController {
     return response.status(200)
   }
 
-  public async destroy ({ auth, params, response }: HttpContextContract) {
+  public async destroy ({ params, response }: HttpContextContract) {
     const user = await User.findOrFail(params.id)
 
-    if(auth.user?.id !== params.id && user !== params.id) {
+    if(params.id && user !== params.id) {
       return response.status(401)
     }
 

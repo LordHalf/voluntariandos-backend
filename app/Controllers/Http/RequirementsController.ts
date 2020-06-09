@@ -3,10 +3,10 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Requirement from 'App/Models/Requirement'
 
 export default class RequirementsController {
-  public async index ({ }) {
+  public async index ({ response }) {
     const requirements = await Requirement.all()
 
-    return requirements
+    return response.json(requirements)
   }
 
   public async store ({ request, response }: HttpContextContract) {
