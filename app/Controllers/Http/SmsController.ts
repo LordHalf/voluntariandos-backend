@@ -10,14 +10,14 @@ export default class SmsController {
 
     client.messages
       .create({
-        body: '',
+        body: 'Voluntariandos - Seu codigo de verificação: ',
         from: `+${smsConfig.smsNumber}`,
         to: `+${sender}`,
       })
       .then(() => {
-        return response.send(200)
+        return response.json({ message: 'Mensagem enviada!' })
       }).catch(() => {
-        return response.send({
+        return response.json({
           message: 'Não foi possível enviar o sms para este número',
         })
       })
