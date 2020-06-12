@@ -17,9 +17,11 @@ export default class RequirementsController {
       'idJuridical',
     ])
 
-    await Requirement.create(requirement)
+    try {
+      await Requirement.create(requirement)
 
-    return response.status(200)
+      return response.status(200)
+    } catch (error) { }
   }
 
   public async update ({ params, request, response }: HttpContextContract) {
@@ -28,16 +30,21 @@ export default class RequirementsController {
     const requirement = await Requirement.findOrFail(params.id)
 
     requirement.merge({ ...updateRequirement })
-    await requirement.save()
 
-    return response.status(200)
+    try {
+      await requirement.save()
+
+      return response.status(200)
+    } catch (error) { }
   }
 
   public async destroy ({ params, response }: HttpContextContract) {
     const requirement = await Requirement.findOrFail(params.id)
 
-    await requirement.delete()
+    try {
+      await requirement.delete()
 
-    return response.status(200)
+      return response.status(200)
+    } catch (error) { }
   }
 }

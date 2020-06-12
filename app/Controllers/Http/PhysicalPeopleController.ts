@@ -1,15 +1,20 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import User from 'App/Models/User'
+import { catchErrorMessage } from '../../utils/catchErrorMessage'
 
 export default class PhysicalPeopleController {
   public async index ({ response }: HttpContextContract) {
-    const user = await User
-      .query()
-      .where('is_juridical', false)
-      .andWhere('is_active', true)
+    try {
+      const user = await User
+        .query()
+        .where('is_juridical', false)
+        .andWhere('is_active', true)
 
-    return response.send(user)
+      return response.send(user)
+    }catch (error) {
+      return response.status(404)
+    }
   }
 
   public async store ({ request, response }: HttpContextContract) {
@@ -20,9 +25,18 @@ export default class PhysicalPeopleController {
       'ssn',
     ])
 
-    await User.create(dataUser)
+    try {
+      await User.create(dataUser)
 
-    return response.status(200)
+      return response.status(200)
+    } catch(error) {
+      const message = catchErrorMessage(error)
+
+      if(!message) {
+        return response.status(404)
+      }
+      return response.json({ error: message })
+    }
   }
 
   public async update ({ params, request, response }: HttpContextContract) {
@@ -32,28 +46,41 @@ export default class PhysicalPeopleController {
       'password',
     ])
 
-    const user = await User.findOrFail(params.id)
+    try {
+      const user = await User.findOrFail(params.id)
 
-    if(user.isJuridical === true) {
-      return response.send({ message: 'você não tem permissão para editar!' })
+      if(user.isJuridical === true) {
+        return response.json({ error: 'você não tem permissão para editar!' })
+      } else if(user.isActive === false) {
+        return response.json({ error: 'Usuário não está ativo!' })
+      }
+
+      try {
+        user.merge({ ...dataUser })
+        await user.save()
+
+        return response.status(200)
+      } catch(error) {
+        const errorMessage = catchErrorMessage(error)
+
+        return response.json({ error: errorMessage})
+      }
+    } catch (error) {
+      const errorMessage = catchErrorMessage(error)
+
+      return response.json({ error: errorMessage})
     }
-
-    user.merge({ ...dataUser })
-    await user.save()
-
-    return response.status(200)
   }
 
   public async destroy ({ params, response }: HttpContextContract) {
     const user = await User.findOrFail(params.id)
 
-    if(params.id && user !== params.id) {
-      return response.status(401)
-    }
-
     user.isActive = false
-    user.save()
 
-    return response.status(200)
+    try {
+      await user.save()
+
+      return response.status(200)
+    } catch(error) { }
   }
 }
