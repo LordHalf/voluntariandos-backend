@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@adonisjs/assembler": "^2.1.2",
+    "@types/source-map-support": "^0.5.1",
     "adonis-preset-ts": "^1.0.4",
     "eslint": "^7.1.0",
     "eslint-plugin-adonis": "^1.0.10",
