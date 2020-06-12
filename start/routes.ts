@@ -18,4 +18,11 @@ Route.group(() => {
   Route.delete('/:id', 'PhysicalPeopleController.destroy')
 }).prefix('/physical')
 
+Route.group(() => {
+  Route.get('/', 'RequirementsController.index')
+  Route.post('/', 'RequirementsController.store')
+  Route.put('/', 'RequirementsController.update')
+  Route.delete('/', 'RequirementsController.destroy')
+}).prefix('/requirements')
+
 Route.post('/sms', 'SmsController.send')
