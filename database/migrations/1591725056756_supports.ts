@@ -18,7 +18,7 @@ export default class Supports extends BaseSchema {
       table
         .integer('requiment_id')
         .references('id')
-        .inTable('users')
+        .inTable('requirements')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
 
