@@ -10,6 +10,7 @@ export default class Users extends BaseSchema {
       table.string('full_name').notNullable()
       table.string('email').notNullable().unique()
       table.string('password').notNullable()
+      table.string('whatsapp', 11).notNullable().unique()
       table.string('ssn', 11).unique()
       table.string('ein', 14).unique()
       table.boolean('is_active').defaultTo(false)

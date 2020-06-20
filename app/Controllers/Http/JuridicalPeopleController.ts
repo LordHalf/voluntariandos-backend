@@ -13,31 +13,7 @@ export default class JuridicalPeopleController {
     return response.send(user)
   }
 
-  public async store ({ request, response }: HttpContextContract) {
-    const user = request.only([
-      'full_name',
-      'email',
-      'password',
-      'ein',
-    ])
-
-    try {
-      await User.create({
-        fullName: user.full_name,
-        email: user.email,
-        password: user.password,
-        ein: user.ein,
-        isJuridical: true,
-      })
-      return response.status(200)
-    } catch (error) {
-      const message = catchErrorMessage(error)
-
-      if(!message) {
-        return response.status(404)
-      }
-      return response.json({ error: message })
-    }
+  public async store ({ }: HttpContextContract) {
   }
 
   public async update ({ params, request, response }: HttpContextContract) {

@@ -17,26 +17,7 @@ export default class PhysicalPeopleController {
     }
   }
 
-  public async store ({ request, response }: HttpContextContract) {
-    const dataUser = request.only([
-      'full_name',
-      'email',
-      'password',
-      'ssn',
-    ])
-
-    try {
-      await User.create(dataUser)
-
-      return response.status(200)
-    } catch(error) {
-      const message = catchErrorMessage(error)
-
-      if(!message) {
-        return response.status(404)
-      }
-      return response.json({ error: message })
-    }
+  public async store ({ }: HttpContextContract) {
   }
 
   public async update ({ params, request, response }: HttpContextContract) {

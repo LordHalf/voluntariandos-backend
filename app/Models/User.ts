@@ -8,10 +8,8 @@ import {
   HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
 
-import Telefone from './Telefone'
 import Adress from './Adress'
 import Support from './Support'
-import SocialMedia from './SocialMedia'
 import Requirement from './Requirement'
 
 export default class User extends BaseModel {
@@ -26,6 +24,9 @@ export default class User extends BaseModel {
 
   @column()
   public password: string
+
+  @column()
+  public whatsapp: number
 
   @beforeSave()
   public static async hashPassword (user: User) {
@@ -46,17 +47,11 @@ export default class User extends BaseModel {
   @column()
   public isJuridical: boolean
 
-  @hasOne(() => Telefone)
-  public telefone: HasOne<typeof Telefone>
-
   @hasOne(() => Adress)
   public adress: HasOne<typeof Adress>
 
   @hasOne(() => Support)
   public support: HasOne<typeof Support>
-
-  @hasOne(() => SocialMedia)
-  public socialMedia: HasOne<typeof SocialMedia>
 
   @hasMany(() => Requirement)
   public requiment: HasMany<typeof Requirement>

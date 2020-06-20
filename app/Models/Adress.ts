@@ -18,7 +18,7 @@ export default class Adress extends BaseModel {
   public uf: string
 
   @column()
-  public contactId: number
+  public userId: number
 
   @column()
   public idJuridical: number
