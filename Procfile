@@ -1,2 +1,2 @@
 release: node ace migration:run
-web: yarn start
+web: node ace serve
